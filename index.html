@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusOS — Your Student Workspace</title>
+
+    <meta
+        name="description"
+        content="CampusOS helps students manage courses, assignments, schedules, and study goals."
+    >
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- LOGIN SCREEN -->
+    <section id="login-screen" class="login-screen">
+
+        <div class="login-card">
+
+            <div class="login-brand">
+                <div class="brand-mark">C</div>
+                <span>CampusOS</span>
+            </div>
+
+            <h1>Welcome back.</h1>
+
+            <p class="login-description">
+                Your academic life, organised in one place.
+            </p>
+
+            <form id="login-form">
+
+                <label for="login-email">Email address</label>
+
+                <input
+                    type="email"
+                    id="login-email"
+                    placeholder="you@example.com"
+                    autocomplete="email"
+                    required
+                >
+
+                <label for="login-password">Password</label>
+
+                <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                >
+
+                <p id="login-error" class="error-message" role="alert"></p>
+
+                <button type="submit" class="primary-button">
+                    Continue
+                </button>
+
+            </form>
+
+            <p class="login-footer">
+                Your space. Your goals. Your progress.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAIN APPLICATION -->
+    <div id="app" class="app hidden">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+
+            <a href="#" class="brand" data-page="dashboard">
+                <span class="brand-mark">C</span>
+                <span>CampusOS</span>
+            </a>
+
+            <div class="sidebar-section">
+
+                <p class="section-label">WORKSPACE</p>
+
+                <nav class="navigation" aria-label="Main navigation">
+
+                    <button class="nav-link active" data-page="dashboard">
+                        <span>Overview</span>
+                    </button>
+
+                    <button class="nav-link" data-page="courses">
+                        <span>Courses</span>
+                    </button>
+
+                    <button class="nav-link" data-page="assignments">
+                        <span>Assignments</span>
+                    </button>
+
+                    <button class="nav-link" data-page="calendar">
+                        <span>Calendar</span>
+                    </button>
+
+                    <button class="nav-link" data-page="planner">
+                        <span>Study planner</span>
+                    </button>
+
+                </nav>
+
+            </div>
+
+            <div class="sidebar-bottom">
+
+                <button id="settings-button" class="nav-link">
+                    Settings
+                </button>
+
+                <button id="profile-button" class="profile-button">
+                    <span id="profile-initial" class="profile-avatar"></span>
+
+                    <span class="profile-details">
+                        <strong id="profile-name">Student</strong>
+                        <small id="profile-email"></small>
+                    </span>
+                </button>
+
+                <button id="logout-button" class="nav-link">
+                    Log out
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <p id="current-date" class="current-date"></p>
+                    <h1 id="page-title">Overview</h1>
+                </div>
+
+                <div class="topbar-actions">
+
+                    <button id="theme-toggle" class="icon-button">
+                        Dark mode
+                    </button>
+
+                    <button id="quick-add-button" class="primary-button">
+                        + Create new
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- DASHBOARD -->
+            <section id="dashboard-page" class="page">
+
+                <div class="welcome-section">
+                    <h2 id="welcome-heading">Your workspace.</h2>
+
+                    <p>
+                        Here's your academic overview.
+                    </p>
+                </div>
+
+
+                <!-- PERSONAL STATISTICS -->
+                <div class="stats-grid">
+
+                    <article class="stat-card">
+                        <p>Total courses</p>
+                        <h2 id="total-courses">0</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <p>Pending assignments</p>
+                        <h2 id="pending-tasks">0</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <p>Upcoming events</p>
+                        <h2 id="upcoming-events">0</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <p>Completed assignments</p>
+                        <h2 id="completed-tasks">0</h2>
+                    </article>
+
+                </div>
+
+
+                <!-- DASHBOARD PANELS -->
+                <div class="dashboard-grid">
+
+                    <section class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Today's schedule</h2>
+                                <p>Your classes and planned activities.</p>
+                            </div>
+
+                            <button
+                                class="text-button"
+                                data-page="calendar"
+                            >
+                                View calendar
+                            </button>
+                        </div>
+
+                        <div id="today-schedule" class="empty-state">
+                            <h3>No activities scheduled</h3>
+                            <p>
+                                Add a class or event to organise your day.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Upcoming deadlines</h2>
+                                <p>Assignments that need your attention.</p>
+                            </div>
+
+                            <button
+                                class="text-button"
+                                data-page="assignments"
+                            >
+                                View all
+                            </button>
+                        </div>
+
+                        <div id="deadlines-list" class="empty-state">
+                            <h3>Nothing due yet</h3>
+                            <p>
+                                Your upcoming deadlines will appear here.
+                            </p>
+                        </div>
+
+                    </section>
+
+
+                    <section class="panel">
+
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Study progress</h2>
+                                <p>Track your completed assignments.</p>
+                            </div>
+                        </div>
+
+                        <div class="progress-container">
+
+                            <div class="progress-label">
+                                <span>Completion</span>
+                                <strong id="progress-value">0%</strong>
+                            </div>
+
+                            <div
+                                class="progress-track"
+                                role="progressbar"
+                                aria-label="Assignment completion"
+                                aria-valuemin="0"
+                                aria-valuemax="100"
+                                aria-valuenow="0"
+                                id="progress-track"
+                            >
+                                <div
+                                    id="progress-bar"
+                                    class="progress-bar"
+                                ></div>
+                            </div>
+
+                            <p id="progress-caption">
+                                Your progress will appear as you work.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+
+            <!-- COURSES -->
+            <section id="courses-page" class="page hidden">
+
+                <div class="page-intro">
+                    <h2>Your courses</h2>
+                    <p>Manage the courses you're taking this semester.</p>
+                </div>
+
+                <div id="courses-list" class="content-grid"></div>
+
+                <div id="courses-empty" class="empty-state">
+                    <h3>No courses added</h3>
+                    <p>Add your first course to get started.</p>
+                </div>
+
+            </section>
+
+
+            <!-- ASSIGNMENTS -->
+            <section id="assignments-page" class="page hidden">
+
+                <div class="page-intro">
+                    <h2>Assignments</h2>
+                    <p>Keep track of your academic work and deadlines.</p>
+                </div>
+
+                <div id="assignments-list" class="content-list"></div>
+
+                <div id="assignments-empty" class="empty-state">
+                    <h3>No assignments yet</h3>
+                    <p>Your assignments will appear here when you add them.</p>
+                </div>
+
+            </section>
+
+
+            <!-- CALENDAR -->
+            <section id="calendar-page" class="page hidden">
+
+                <div class="page-intro">
+                    <h2>Your calendar</h2>
+                    <p>Keep your classes, deadlines, and events organised.</p>
+                </div>
+
+                <div class="panel">
+
+                    <div class="calendar-toolbar">
+
+                        <button
+                            id="calendar-prev"
+                            class="icon-button"
+                            aria-label="Previous month"
+                        >
+                            Previous
+                        </button>
+
+                        <h3 id="calendar-month"></h3>
+
+                        <button
+                            id="calendar-next"
+                            class="icon-button"
+                            aria-label="Next month"
+                        >
+                            Next
+                        </button>
+
+                    </div>
+
+                    <div id="calendar-grid" class="calendar-grid"></div>
+
+                    <div id="selected-date-items"></div>
+
+                </div>
+
+            </section>
+
+
+            <!-- STUDY PLANNER -->
+            <section id="planner-page" class="page hidden">
+
+                <div class="page-intro">
+                    <h2>Study planner</h2>
+                    <p>Plan your study sessions around your academic goals.</p>
+                </div>
+
+                <div id="study-list" class="content-list"></div>
+
+                <div id="planner-empty" class="empty-state">
+                    <h3>Your planner is ready</h3>
+                    <p>Add a study session when you're ready to plan.</p>
+                </div>
+
+            </section>
+
+
+          ```
+        <!-- SETTINGS -->
+        <section id="settings-page" class="page hidden">
+
+            <div class="page-intro settings-intro">
+                <div>
+                    <span class="settings-eyebrow">PREFERENCES & PERSONALISATION</span>
+                    <h2>Settings</h2>
+                    <p>Make CampusOS feel like your own workspace.</p>
+                </div>
+            </div>
+
+            <!-- SETTINGS OVERVIEW -->
+            <div class="settings-layout">
+
+                <aside class="settings-nav panel">
+                    <span class="settings-nav-label">GENERAL</span>
+
+                    <button class="settings-nav-item active" data-settings-tab="appearance">
+                        <span class="settings-nav-icon">◐</span>
+                        <span>
+                            <strong>Appearance</strong>
+                            <small>Theme and visual preferences</small>
+                        </span>
+                        <span class="settings-chevron">›</span>
+                    </button>
+
+                    <button class="settings-nav-item" data-settings-tab="profile">
+                        <span class="settings-nav-icon">◎</span>
+                        <span>
+                            <strong>Profile</strong>
+                            <small>Your personal information</small>
+                        </span>
+                        <span class="settings-chevron">›</span>
+                    </button>
+
+                    <button class="settings-nav-item" data-settings-tab="workspace">
+                        <span class="settings-nav-icon">▦</span>
+                        <span>
+                            <strong>Workspace</strong>
+                            <small>How your space is organised</small>
+                        </span>
+                        <span class="settings-chevron">›</span>
+                    </button>
+
+                    <div class="settings-nav-divider"></div>
+
+                    <span class="settings-nav-label">ACCOUNT</span>
+
+                    <button class="settings-nav-item" data-settings-tab="account">
+                        <span class="settings-nav-icon">⚙</span>
+                        <span>
+                            <strong>Account</strong>
+                            <small>Account details and access</small>
+                        </span>
+                        <span class="settings-chevron">›</span>
+                    </button>
+                </aside>
+
+                <div class="settings-content">
+
+                    <!-- APPEARANCE TAB -->
+                    <section class="settings-tab active" id="settings-tab-appearance">
+
+                        <div class="settings-section-heading">
+                            <div>
+                                <span class="settings-eyebrow">PERSONALISE</span>
+                                <h3>Appearance</h3>
+                                <p>Adjust the look and feel of your workspace.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">◐</div>
+                                <div>
+                                    <h4>Colour theme</h4>
+                                    <p>Choose the appearance that works best for you.</p>
+                                </div>
+                            </div>
+
+                            <select id="theme-select" class="settings-select">
+                                <option value="light">Light mode</option>
+                                <option value="dark">Dark mode</option>
+                            </select>
+                        </div>
+
+                        <div class="panel settings-preview-card">
+                            <div>
+                                <span class="settings-eyebrow">YOUR WORKSPACE</span>
+                                <h4>A space that feels right.</h4>
+                                <p>Your theme preference changes the overall appearance of CampusOS.</p>
+                            </div>
+
+                            <div class="theme-preview" aria-hidden="true">
+                                <div class="theme-preview-sidebar"></div>
+                                <div class="theme-preview-main">
+                                    <div class="theme-preview-line"></div>
+                                    <div class="theme-preview-line short"></div>
+                                    <div class="theme-preview-blocks">
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                    <!-- PROFILE TAB -->
+                    <section class="settings-tab hidden" id="settings-tab-profile">
+
+                        <div class="settings-section-heading">
+                            <div>
+                                <span class="settings-eyebrow">PERSONAL DETAILS</span>
+                                <h3>Profile</h3>
+                                <p>Your student identity and profile information.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">◎</div>
+                                <div>
+                                    <h4>Current profile</h4>
+                                    <p id="settings-profile-email">Your signed-in email address will appear here.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">✎</div>
+                                <div>
+                                    <h4>Display name</h4>
+                                    <p>Manage how your name appears in your workspace.</p>
+                                </div>
+                            </div>
+
+                            <span class="settings-status">Coming soon</span>
+                        </div>
+
+                    </section>
+
+                    <!-- WORKSPACE TAB -->
+                    <section class="settings-tab hidden" id="settings-tab-workspace">
+
+                        <div class="settings-section-heading">
+                            <div>
+                                <span class="settings-eyebrow">YOUR ENVIRONMENT</span>
+                                <h3>Workspace</h3>
+                                <p>Keep your academic workspace organised.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">▦</div>
+                                <div>
+                                    <h4>Academic workspace</h4>
+                                    <p>Courses, assignments, your calendar and study planner in one place.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">✦</div>
+                                <div>
+                                    <h4>Workspace customisation</h4>
+                                    <p>More layout and personalisation options can be added here.</p>
+                                </div>
+                            </div>
+
+                            <span class="settings-status">Coming soon</span>
+                        </div>
+
+                    </section>
+
+                    <!-- ACCOUNT TAB -->
+                    <section class="settings-tab hidden" id="settings-tab-account">
+
+                        <div class="settings-section-heading">
+                            <div>
+                                <span class="settings-eyebrow">ACCOUNT MANAGEMENT</span>
+                                <h3>Account</h3>
+                                <p>Information about your current CampusOS session.</p>
+                            </div>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">✓</div>
+                                <div>
+                                    <h4>Session status</h4>
+                                    <p>Your current sign-in session and profile.</p>
+                                </div>
+                            </div>
+
+                            <span class="settings-status">Active session</span>
+                        </div>
+
+                        <div class="panel settings-option-card">
+                            <div class="settings-option-info">
+                                <div class="settings-option-icon">↗</div>
+                                <div>
+                                    <h4>Sign out</h4>
+                                    <p>Return to the CampusOS login screen.</p>
+                                </div>
+                            </div>
+
+                            <button type="button" id="settings-logout-button" class="settings-secondary-button">
+                                Sign out
+                            </button>
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </div>
+
+        </section>
+```
+
+        </main>
+
+    </div>
+
+
+    <!-- CREATE ITEM MODAL -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+
+        <section
+            class="modal"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+        >
+
+            <div class="modal-heading">
+
+                <h2 id="modal-title">Create new</h2>
+
+                <button
+                    id="modal-close"
+                    class="icon-button"
+                    aria-label="Close dialog"
+                >
+                    Close
+                </button>
+
+            </div> 
+
+            <div class="modal-type-selector">
+
+                <button data-add-type="course">Course</button>
+                <button data-add-type="assignment">Assignment</button>
+                <button data-add-type="event">Event</button>
+                <button data-add-type="study">Study session</button>
+
+            </div>
+
+            <form id="item-form">
+
+                <div id="form-fields"></div>
+
+                <p id="form-error" class="error-message"></p>
+
+                <button type="submit" class="primary-button">
+                    Save
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+
+    <!-- NOTIFICATIONS -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+</body>
+</html>
